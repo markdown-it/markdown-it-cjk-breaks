@@ -1,0 +1,41 @@
+Remove linebreaks between CJK characters
+.
+あおえ
+いう
+.
+<p>あおえいう</p>
+.
+
+Keep linebreaks between CJK and english
+.
+あおえ
+aoe
+.
+<p>あおえ
+aoe</p>
+.
+
+Keep linebreaks between english and CJK
+.
+aoe
+あおえ
+.
+<p>aoe
+あおえ</p>
+.
+
+Emphasis tokens should be skipped
+.
+*あおえ*
+*いう*
+.
+<p><em>あおえ</em><em>いう</em></p>
+.
+
+Should recognize astral characters correctly
+.
+foo🈀
+🈀foo
+.
+<p>foo🈀🈀foo</p>
+.
