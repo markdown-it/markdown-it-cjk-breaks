@@ -1,4 +1,13 @@
-Remove linebreaks between CJK characters
+Remove linebreaks near ZWSP
+.
+foo​
+bar
+​baz
+.
+<p>foo​bar​baz</p>
+.
+
+Remove linebreaks between hiragana (wide) characters
 .
 あおえ
 いう
@@ -6,21 +15,43 @@ Remove linebreaks between CJK characters
 <p>あおえいう</p>
 .
 
-Keep linebreaks between CJK and english
+Remove linebreaks between halfwidth katakana
 .
-あおえ
-aoe
+ｱｵｴ
+ｲｳ
 .
-<p>あおえ
-aoe</p>
+<p>ｱｵｴｲｳ</p>
 .
 
-Keep linebreaks between english and CJK
+Remove linebreaks between fullwidth characters
 .
+！＂＃
+＄％
+.
+<p>！＂＃＄％</p>
+.
+
+Keep linebreaks between hangul characters
+.
+ㅏㅗㅔ
+ㅣㅜ
+ￂￌￇ
+ￜￓ
+.
+<p>ㅏㅗㅔ
+ㅣㅜ
+ￂￌￇ
+ￜￓ</p>
+.
+
+Keep linebreaks between hiragana (wide) and english
+.
+あおえ
 aoe
 あおえ
 .
-<p>aoe
+<p>あおえ
+aoe
 あおえ</p>
 .
 

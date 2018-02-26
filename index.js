@@ -1,32 +1,23 @@
 'use strict';
 
+var eastAsianWidth = require('eastasianwidth').eastAsianWidth;
 
-function is_CJK(c) {
-  return (c >= 0x4E00  && c <= 0x9FFF)  || // CJK_UNIFIED_IDEOGRAPHS
-         (c >= 0x3400  && c <= 0x4DBF)  || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-         (c >= 0x20000 && c <= 0x2A6DF) || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B
-         (c >= 0x2A700 && c <= 0x2B73F) || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C
-         (c >= 0x2B740 && c <= 0x2B81F) || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D
-         (c >= 0x2B820 && c <= 0x2CEAF) || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E
-         (c >= 0x2CEB0 && c <= 0x2EBEF) || // CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F
-         (c >= 0x3300  && c <= 0x33FF)  || // CJK_COMPATIBILITY
-         (c >= 0xFE30  && c <= 0xFE4F)  || // CJK_COMPATIBILITY_FORMS
-         (c >= 0xF900  && c <= 0xFAFF)  || // CJK_COMPATIBILITY_IDEOGRAPHS
-         (c >= 0x2F800 && c <= 0x2FA1F) || // CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT
-         (c >= 0x2E80  && c <= 0x2EFF)  || // CJK_RADICALS_SUPPLEMENT
-         (c >= 0x31C0  && c <= 0x31EF)  || // CJK_STROKES
-         (c >= 0x3000  && c <= 0x303F)  || // CJK_SYMBOLS_AND_PUNCTUATION
-         (c >= 0x3200  && c <= 0x32FF)  || // ENCLOSED_CJK_LETTERS_AND_MONTHS
-         (c >= 0x1F200 && c <= 0x1F2FF) || // ENCLOSED_IDEOGRAPHIC_SUPPLEMENT
-         (c >= 0x2F00  && c <= 0x2FDF)  || // KANGXI_RADICALS
-         (c >= 0x2FF0  && c <= 0x2FFF)  || // IDEOGRAPHIC_DESCRIPTION_CHARACTERS
-         (c >= 0x3040  && c <= 0x309F)  || // HIRAGANA
-         (c >= 0x30A0  && c <= 0x30FF);    // KATAKANA
+
+function is_surrogate(c1, c2) {
+  return c1 >= 0xD800 && c1 <= 0xDBFF && c2 >= 0xDC00 && c2 <= 0xDFFF;
+}
+
+
+function is_hangul(c) {
+  // require('unicode-10.0.0/Script/Hangul/regex')
+  /* eslint-disable max-len */
+  return /[\u1100-\u11FF\u302E\u302F\u3131-\u318E\u3200-\u321E\u3260-\u327E\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uFFA0-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/.test(c);
+  /* eslint-enable max-len */
 }
 
 
 function process_inlines(tokens) {
-  var i, j, last, next, c;
+  var i, j, last, next, c1, c2, remove_break;
 
   for (i = 0; i < tokens.length; i++) {
     if (tokens[i].type !== 'softbreak') continue;
@@ -37,23 +28,35 @@ function process_inlines(tokens) {
     for (j = i - 1; j >= 0; j--) {
       if (tokens[j].type !== 'text') continue;
 
-      c = tokens[j].content.charCodeAt(tokens[j].content.length - 2);
-      last = tokens[j].content.charCodeAt(tokens[j].content.length - 1);
+      c1 = tokens[j].content.charCodeAt(tokens[j].content.length - 2);
+      c2 = tokens[j].content.charCodeAt(tokens[j].content.length - 1);
 
-      if (last >= 0xDC00 && last <= 0xDFFF && c >= 0xD800 && c <= 0xDBFF) {
-        last = tokens[j].content.codePointAt(tokens[j].content.length - 2);
-      }
+      last = tokens[j].content.slice(is_surrogate(c1, c2) ? -2 : -1);
       break;
     }
 
     for (j = i + 1; j < tokens.length; j++) {
       if (tokens[j].type !== 'text') continue;
 
-      next = tokens[j].content.codePointAt(0);
+      c1 = tokens[j].content.charCodeAt(0);
+      c2 = tokens[j].content.charCodeAt(1);
+
+      next = tokens[j].content.slice(0, is_surrogate(c1, c2) ? 2 : 1);
       break;
     }
 
-    if (is_CJK(last) && is_CJK(next)) {
+    remove_break = false;
+
+    // remove newline if it's adjacent to ZWSP
+    if (last === '\u200b' || next === '\u200b') remove_break = true;
+
+    // remove newline if both characters are fullwidth (F), wide (W) or
+    // halfwidth (H), but not Hangul
+    if (/^[FWH]$/.test(eastAsianWidth(last)) && /^[FWH]$/.test(eastAsianWidth(next))) {
+      if (!is_hangul(last) && !is_hangul(next)) remove_break = true;
+    }
+
+    if (remove_break) {
       tokens[i].type    = 'text';
       tokens[i].content = '';
     }
@@ -73,6 +76,3 @@ function cjk_breaks(state) {
 module.exports = function cjk_breaks_plugin(md) {
   md.core.ruler.push('cjk_breaks', cjk_breaks);
 };
-
-// exported for test purposes
-module.exports._is_CJK = is_CJK;

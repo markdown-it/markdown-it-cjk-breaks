@@ -1,7 +1,7 @@
 {
   "name": "markdown-it-cjk-breaks",
   "version": "1.0.0",
-  "description": "Suppress linebreaks between CJK characters",
+  "description": "Suppress linebreaks between east asian characters",
   "keywords": [
     "markdown-it-plugin",
     "markdown-it"
@@ -24,6 +24,9 @@
     "lib/",
     "dist/"
   ],
+  "dependencies": {
+    "eastasianwidth": "~0.2.0"
+  },
   "devDependencies": {
     "browserify": "*",
     "coveralls": "^2.11.2",
