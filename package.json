@@ -20,14 +20,14 @@
     "eastasianwidth": "~0.2.0"
   },
   "devDependencies": {
-    "browserify": "*",
-    "coveralls": "^2.11.2",
-    "eslint": "^3.7.0",
-    "istanbul": "*",
+    "browserify": "^16.2.3",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "istanbul": "^0.4.5",
     "lodash": "^4.16.2",
-    "markdown-it": "^6.0.0",
+    "markdown-it": "^8.0.0",
     "markdown-it-testgen": "~0.1.0",
-    "mocha": "*",
-    "uglify-js": "*"
+    "mocha": "^5.2.0",
+    "uglify-js": "^3.4.9"
   }
 }
