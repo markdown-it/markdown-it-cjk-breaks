@@ -1,3 +1,10 @@
+1.1.2 / 2018-11-27
+------------------
+
+- Dev deps bump.
+- `dist/` files rebuild, missed in prev release.
+
+
 1.1.1 / 2018-11-27
 ------------------
 
