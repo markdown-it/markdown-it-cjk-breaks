@@ -70,3 +70,12 @@ foo🈀
 .
 <p>foo🈀🈀foo</p>
 .
+
+Should process EOL correctly
+.
+![img](image.png)
+text
+.
+<p><img src="image.png" alt="img">
+text</p>
+.

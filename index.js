@@ -23,7 +23,7 @@ function process_inlines(tokens) {
     if (tokens[i].type !== 'softbreak') continue;
 
     // default last/next character to space
-    last = next = 0x20;
+    last = next = ' ';
 
     for (j = i - 1; j >= 0; j--) {
       if (tokens[j].type !== 'text') continue;
