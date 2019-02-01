@@ -28,7 +28,7 @@ browserify:
 	mkdir dist
 	# Browserify
 	( printf "/*! ${NPM_PACKAGE} ${NPM_VERSION} ${GITHUB_PROJ} @license MIT */" ; \
-		./node_modules/.bin/browserify ./ -s markdownitForInline \
+		./node_modules/.bin/browserify ./ -s markdownitCjkBreaks \
 		) > dist/markdown-it-cjk-breaks.js
 	# Minify
 	./node_modules/.bin/uglifyjs dist/markdown-it-cjk-breaks.js -b beautify=false,ascii_only=true -c -m \
