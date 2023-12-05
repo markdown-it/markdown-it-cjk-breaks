@@ -1,6 +1,6 @@
 # markdown-it-cjk-breaks
 
-[![Build Status](https://img.shields.io/travis/markdown-it/markdown-it-cjk-breaks/master.svg?style=flat)](https://travis-ci.org/markdown-it/markdown-it-cjk-breaks)
+[![CI](https://github.com/markdown-it/markdown-it-cjk-breaks/actions/workflows/ci.yml/badge.svg)](https://github.com/markdown-it/markdown-it-cjk-breaks/actions/workflows/ci.yml)
 [![NPM version](https://img.shields.io/npm/v/markdown-it-cjk-breaks.svg?style=flat)](https://www.npmjs.org/package/markdown-it-cjk-breaks)
 [![Coverage Status](https://coveralls.io/repos/markdown-it/markdown-it-cjk-breaks/badge.svg?branch=master&service=github)](https://coveralls.io/github/markdown-it/markdown-it-cjk-breaks?branch=master)
 
