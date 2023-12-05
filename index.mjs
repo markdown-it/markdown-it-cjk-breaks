@@ -1,7 +1,4 @@
-'use strict'
-
-import eaw from 'eastasianwidth'
-const { eastAsianWidth } = eaw
+import { eastAsianWidthType } from 'get-east-asian-width'
 
 function is_surrogate (c1, c2) {
   return c1 >= 0xD800 && c1 <= 0xDBFF && c2 >= 0xDC00 && c2 <= 0xDFFF
@@ -49,7 +46,8 @@ function process_inlines (tokens) {
 
     // remove newline if both characters are fullwidth (F), wide (W) or
     // halfwidth (H), but not Hangul
-    if (/^[FWH]$/.test(eastAsianWidth(last)) && /^[FWH]$/.test(eastAsianWidth(next))) {
+    if (/^[fwh]$/.test(eastAsianWidthType(last.codePointAt(0))[0]) &&
+        /^[fwh]$/.test(eastAsianWidthType(next.codePointAt(0))[0])) {
       if (!is_hangul(last) && !is_hangul(next)) remove_break = true
     }
 

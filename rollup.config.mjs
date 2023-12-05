@@ -57,7 +57,8 @@ const config_cjs_no_deps = {
     file: 'dist/index.cjs.js',
     format: 'cjs'
   },
-  external: Object.keys(pkg.dependencies || {}),
+  // Bundle deps, since those not support CJS
+  // external: Object.keys(pkg.dependencies || {}),
   plugins: [
     resolve(),
     babel({ babelHelpers: 'bundled' })
