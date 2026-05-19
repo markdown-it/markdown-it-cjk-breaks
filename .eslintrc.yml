@@ -6,9 +6,6 @@ overrides:
     rules:
       no-restricted-globals: [ 2, require, __dirname ]
   -
-    files: [ 'test/**' ]
-    env: { mocha: true }
-  -
     files: [ 'lib/**', 'index.mjs' ]
     parserOptions: { ecmaVersion: 2015 }
 
