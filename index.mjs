@@ -21,6 +21,7 @@ function process_inlines (tokens) {
 
     for (let j = i - 1; j >= 0; j--) {
       if (tokens[j].type !== 'text') continue
+      if (tokens[j].content.length === 0) break
 
       const c1 = tokens[j].content.charCodeAt(tokens[j].content.length - 2)
       const c2 = tokens[j].content.charCodeAt(tokens[j].content.length - 1)
@@ -31,6 +32,7 @@ function process_inlines (tokens) {
 
     for (let j = i + 1; j < tokens.length; j++) {
       if (tokens[j].type !== 'text') continue
+      if (tokens[j].content.length === 0) break
 
       const c1 = tokens[j].content.charCodeAt(0)
       const c2 = tokens[j].content.charCodeAt(1)

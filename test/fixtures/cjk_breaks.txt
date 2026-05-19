@@ -79,3 +79,12 @@ text
 <p><img src="image.png" alt="img">
 text</p>
 .
+
+Should process linebreaks after strong correctly
+.
+**foo**
+bar
+.
+<p><strong>foo</strong>
+bar</p>
+.
