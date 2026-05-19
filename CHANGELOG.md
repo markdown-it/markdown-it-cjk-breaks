@@ -1,3 +1,9 @@
+2.0.1 / 2026-05-20
+------------------
+
+- Fixed crash due to empty text before a softbreak, #5. Thanks to @searKing.
+
+
 2.0.0 / 2023-12-05
 ------------------
 
