@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-cjk-breaks",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Suppress linebreaks between east asian characters",
   "keywords": [
     "markdown-it-plugin",
